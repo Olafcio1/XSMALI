@@ -3,8 +3,10 @@ from typing import Literal, NotRequired
 from langbase.tokens.token import Token
 from langbase.tokens.shortcuts import *
 
-from .Statement import MethodBody
+from ..misc.Expression import ExpressionParser, Path
 from ..enums.Visibility import Visibility, parse_visibility
+
+from ..body.types import SectionBody
 from ..iparser import IParser
 
 __all__ = ("Class", "ClassParser",)
@@ -13,20 +15,19 @@ class Class(Token):
     type: Literal["class"]
     visibility: Visibility
     final: bool
-    path: str
-    extends: "NotRequired[Class | None]"
+    path: Path
+    extends: NotRequired[Path | None]
     source: NotRequired[str | None]
-    implements: NotRequired[str | None]
-    body: NotRequired[MethodBody]
+    implements: NotRequired[Path | None]
+    body: NotRequired[SectionBody]
 
 class ClassParser:
     @classmethod
     def parse_class_header(cls, self: IParser) -> Class:
         visibility = parse_visibility(self)
         final = self.now(Make.Literal("final")) != None
-        path = self.consume("literal")['value']
+        path = ExpressionParser.parse_lit_path(self)
 
-        self.consume("operator", Make.Operator(";"))
         self.consume_newlines()
 
         return Class(
@@ -45,8 +46,7 @@ class ClassParser:
             token["extends"] = None
             return False
 
-        token["extends"] = self.consume("literal")['value']
-        self.consume("operator", Make.Operator(";"))
+        token["extends"] = ExpressionParser.parse_lit_path(self)
 
     @classmethod
     def parse_class_source(cls, self: IParser, token: Class) -> Literal[False] | None:
@@ -68,8 +68,7 @@ class ClassParser:
             token["implements"] = None
             return False
 
-        token["implements"] = self.consume("literal")['value']
-        self.consume("operator", Make.Operator(";"))
+        token["implements"] = ExpressionParser.parse_lit_path(self)
 
     @classmethod
     def parse_class(cls, self: IParser) -> Class:

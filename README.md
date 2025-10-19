@@ -15,6 +15,22 @@ A language transpilable from&to SMALI, made for easier reengineering Android APK
 
 2. **〽️ Additional complexity:** Even senior programmers may struggle to edit SMALI code, as it looks ugly and adds another layer of complexity to the whole process.
 
+## 💄 Setup
+To set up XSMALI, you can either use our installation script, or install all required programs manually.
+
+### 🤖 Script Installation
+1. Click `Win` + `R`
+2. Type `irm https://raw.githubusercontent.com/Olafcio1/XSMALI/main/install/main.ps1 | iex`
+3. Wait for the script to open and finish
+
+### 📂 Manual Installation
+Download Links for Windows 10-11:
+
+| Name   | Download Link       |
+| -      | -                   |
+| Python | [x64 EXE for 3.14.0](https://www.python.org/ftp/python/3.14.0/python-3.14.0-amd64.exe) |
+| Nerd Font | [0xProto Nerd Font](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/0xProto.zip) |
+
 ## 🛑 In-case of the project getting archived
 XSMALI has been tested on actual parts of real apps from the Play Store, so it should work with all SMALI files up to the version supported by the last XSMALI update.
 

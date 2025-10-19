@@ -2,7 +2,7 @@ import string
 from typing import ClassVar
 
 from langbase.tokens.token import *
-from langbase.classes.BaseLexer import BaseLexer
+from langbase.classes.BaseLexer import BaseLexer, LexerError
 
 from .tokens import Tokens
 
@@ -52,7 +52,8 @@ class Lexer(BaseLexer[TokenBase]):
         return self._output
 
     def parse_string(self) -> None:
-        assert self.consume() == '"'
+        if self.consume() != '"':
+            raise LexerError("Expected '\"'")
 
         value = ""
 

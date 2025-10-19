@@ -3,8 +3,11 @@ from typing import Any, Generic, TypeVar
 
 from ..tokens.token import TokenBase
 
-__all__ = ("T", "BaseLexer",)
+__all__ = ("T", "BaseLexer", "LexerError",)
 T = TypeVar('T', bound=TokenBase)
+
+class LexerError(BaseException):
+    pass
 
 class BaseLexer(Generic[T], metaclass=ABCMeta):
     _data: str

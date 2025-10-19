@@ -3,9 +3,7 @@ from langbase.classes.BaseParser import BaseParser, EOFReaction
 from langbase.tokens.token import TokenBase
 from langbase.tokens.shortcuts import *
 
-from .datatypes.Class import ClassParser
-from .misc.SectionBody import BodyParser
-
+from .body.parser import BodyParser
 from .tokens import *
 
 class Parser(BaseParser[TokenBase]):

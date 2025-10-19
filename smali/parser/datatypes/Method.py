@@ -3,7 +3,7 @@ from typing import Literal, NotRequired
 from langbase.tokens.token import Token
 from langbase.tokens.shortcuts import *
 
-from .Statement import Statement, StatementParser
+from .Statement import MethodBody, StatementParser
 from ..iparser import IParser
 
 from ..misc.Type import Type, TypeParser
@@ -21,7 +21,7 @@ class Method(Token):
     name: str
     args: list[str]
     returns: Type | None
-    body: NotRequired[list[Statement]]
+    body: NotRequired[MethodBody]
 
 class MethodParser:
     @classmethod

@@ -1,11 +1,12 @@
 from typing import Any, Literal, Protocol, overload
-from langbase.tokens.token import *
+
 from langbase.classes.BaseParser import EOFReaction
+from langbase.tokens.token import *
 
 __all__ = ("T", "TArg", "IParser",)
 
 T = TokenBase
-TArg = T
+TArg = Any
 
 class IParser(Protocol):
     @overload

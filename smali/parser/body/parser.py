@@ -5,17 +5,16 @@ from langbase.classes.BaseParser import ParserError, EOFReaction
 
 from ..datatypes.Class import ClassParser
 from ..datatypes.Method import MethodParser
-from ..datatypes.Statement import MethodBody
 from ..datatypes.Annotation import AnnotationParser
 
-from ..tokens import Token
 from ..iparser import IParser
+from .types import *
 
 __all__ = ("BodyParser",)
 
 class BodyParser:
     @classmethod
-    def parse_body(cls, self: IParser, keyword: str) -> MethodBody:
+    def parse_body(cls, self: IParser, keyword: str) -> SectionBody:
         output = []
 
         while True:
@@ -32,7 +31,7 @@ class BodyParser:
         return output
 
     @classmethod
-    def parse_section(cls, self: IParser) -> Token:
+    def parse_section(cls, self: IParser) -> Section:
         token: Any
         allowed = {
             "class": lambda: ClassParser.parse_class(self)
@@ -52,16 +51,18 @@ class BodyParser:
         return token
 
     @classmethod
-    def parse_member(cls, self: IParser) -> Token:
+    def parse_member(cls, self: IParser) -> Member:
         token: Any
 
-        self.consume("operator", Make.Operator("."))
-        if self.now(Make.Literal("method")):
-            token = MethodParser.parse_method(self)
-        elif self.now(Make.Literal("annotation")):
-            token = AnnotationParser.parse_annotation(self)
-        else:
-            raise ParserError("Expected a member")
+        try:
+            token = cls.parse_section(self)
+        except ParserError:
+            if self.now(Make.Literal("method")):
+                token = MethodParser.parse_method(self)
+            elif self.now(Make.Literal("annotation")):
+                token = AnnotationParser.parse_annotation(self)
+            else:
+                raise ParserError("Expected a member")
 
         self.consume_newlines()
         return token
