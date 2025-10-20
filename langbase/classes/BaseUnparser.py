@@ -1,6 +1,6 @@
 from abc import ABCMeta
 from enum import Enum
-from typing import Any, Generic, Literal, TypeVar, overload
+from typing import Any, ClassVar, Generic, Literal, TypeVar, overload
 
 from ..tokens.token import *
 
@@ -18,14 +18,20 @@ class EOFReaction(Enum):
     EOF_TOKEN = 2
 
 class BaseUnparser(Generic[T], metaclass=ABCMeta):
+    TAB: ClassVar[str] = "\t"
+
     _data: list[T]
     _index: int
     _output: str
+
+    _tabs: int
 
     def __init__(self, data: list[T]) -> None:
         self._data = data
         self._index = 0
         self._output = ""
+
+        self._tabs = 0
 
     @overload
     def consume(self, /, fields: dict[str, Any] = {}, *, allowEOF: Literal[False]) -> T: ...
@@ -92,5 +98,17 @@ class BaseUnparser(Generic[T], metaclass=ABCMeta):
 
         return output
 
+    def tab(self, inc: int) -> None:
+        self._tabs += inc
+
+        if inc > 0:
+            self._output += self.TAB * inc
+        else:
+            self._output = self._output.removesuffix(self.TAB * -inc)
+
     def write(self, value: str) -> None:
-        self._output += value
+        tab = self.TAB * self._tabs
+        self._output += value.replace("\n", "\n" + tab)
+
+    def unwrite(self, length: int) -> None:
+        self._output = self._output[:-length]

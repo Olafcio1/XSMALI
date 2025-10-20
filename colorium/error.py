@@ -1,0 +1,2 @@
+class error(BaseException):
+    pass

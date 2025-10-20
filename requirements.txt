@@ -1,2 +1,0 @@
-colored==2.2.4
-colour==0.1.5

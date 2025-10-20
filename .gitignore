@@ -1,4 +1,4 @@
-/examples/App$a.smali
+/xsmali/examples/App$a.smali
 .vscode
 __pycache__
 *.pyc
