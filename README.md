@@ -20,7 +20,7 @@ To set up XSMALI, you can either use our installation script, or install all req
 
 ### 🤖 Script Installation
 1. Click `Win` + `R`
-2. Type `irm https://raw.githubusercontent.com/Olafcio1/XSMALI/main/install/main.ps1 | iex`
+2. Type `powershell irm https://raw.githubusercontent.com/Olafcio1/XSMALI/main/install/main.ps1 | iex`
 3. Wait for the script to open and finish
 
 ### 📂 Manual Installation
