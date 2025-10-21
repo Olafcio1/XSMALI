@@ -83,5 +83,4 @@ class ClassParser:
             if func(self, token) == None:
                 self.consume_newlines()
 
-        self.add_token(token)
         return token

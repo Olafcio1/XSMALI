@@ -3,6 +3,12 @@ import math
 from error import error
 from colour import Color
 
+def hex(value: str) -> Color:
+    if value[0] != "#":
+        raise BaseException("Expected a hex value (#rrggbb)")
+
+    return Color(hex=value)
+
 def rgb(r: float, g: float, b: float) -> Color:
     """
     :param r: red (0-255)
@@ -34,6 +40,9 @@ def css(text: str) -> Color:
         "rgb": rgb,
         "hsl": hsl
     }
+
+    if text.startswith("#"):
+        return hex(text)
 
     for name, func in functions.items():
         if text.startswith(name + "("):
